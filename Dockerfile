@@ -31,7 +31,6 @@ RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev --ignore-scripts
 
 # Copy built files from the builder stage
 COPY --from=builder /app/dist /app/dist
-COPY --from=builder /app/bin /app/bin
 
 # Environment variable for Picnic credentials
 ENV PICNIC_USERNAME=Some_username
