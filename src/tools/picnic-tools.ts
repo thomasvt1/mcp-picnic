@@ -778,7 +778,7 @@ toolRegistry.register({
 
 // 2FA tools
 const generate2FAInputSchema = z.object({
-  channel: z.string().default("SMS").describe("Channel to send 2FA code (SMS, etc.)"),
+  channel: z.string().default("SMS").describe("Channel to send 2FA code (SMS, EMAIL, etc.)"),
 })
 
 toolRegistry.register({

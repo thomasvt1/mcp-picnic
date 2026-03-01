@@ -1,4 +1,4 @@
-import PicnicClient from "picnic-api"
+import PicnicClient from "picnic-api-fix"
 import fs from "fs/promises"
 import { config } from "../config.js"
 
@@ -17,7 +17,7 @@ async function loadSession(): Promise<string | null> {
 
 export async function saveSession(): Promise<void> {
   if (!picnicClientInstance) return
-  const authKey = (picnicClientInstance as any).authKey
+  const authKey = picnicClientInstance.authKey
   if (authKey) {
     await fs.writeFile(config.PICNIC_SESSION_FILE, JSON.stringify({ authKey }))
   }
@@ -49,7 +49,7 @@ export async function initializePicnicClient(
   if (savedAuthKey) {
     try {
       console.error("Testing saved auth key...")
-      await client.getUserInfo()
+      await client.getUserDetails()
       picnicClientInstance = client
       console.error("Successfully reused saved session.")
       return

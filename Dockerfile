@@ -6,13 +6,13 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Copy package files first for better caching
-COPY package*.json ./
+COPY package*.json tsconfig.json ./
 
 # Install ALL dependencies (including dev dependencies needed for build) but skip scripts
 RUN --mount=type=cache,target=/root/.npm npm ci --ignore-scripts
 
 # Copy source code and build files
-COPY . .
+COPY src src
 
 # Build the application
 RUN npm run build
@@ -36,9 +36,16 @@ COPY --from=builder /app/bin /app/bin
 # Environment variable for Picnic credentials
 ENV PICNIC_USERNAME=Some_username
 ENV PICNIC_PASSWORD=Some_password
+ENV PICNIC_SESSION_FILE=picnic-session.json
+
+# Environment variable for HTTP server
+ENV ENABLE_HTTP_SERVER=true
+ENV HTTP_SERVER_PORT=3000
+ENV HTTP_HOST=0.0.0.0
+
 
 # Expose any required ports (if needed by the application)
-# EXPOSE 3000
+EXPOSE 3000
 
 # Start the server
-ENTRYPOINT ["node", "bin/mcp-server.js"]
+ENTRYPOINT ["node", "dist/index.js"]

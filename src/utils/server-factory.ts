@@ -2,7 +2,7 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js"
 import { toolRegistry } from "../tools/index.js"
 import { promptRegistry } from "../prompts/index.js"
 import { resourceRegistry } from "../resources/index.js"
-import packageJson from "../../package.json"
+import packageJson from "../../package.json" with { type: "json" }
 
 export interface ServerConfig {
   name?: string
